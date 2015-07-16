@@ -37,34 +37,54 @@ function getUrlParameter(sParam)
 //
 //})
 
-
-$("#getParameter").after(function(){
-    var uid = arrivalDate =getUrlParameter('ArrivalDate');
-
-    if(typeof arrivalDate != 'undefined'){
+var click = 0;
+    $('#getParameter').click(function(){
+        click=+1;
         var uid = getUrlParameter('uid');
-        try {
-         var JSONObject= [{"social":"tweets", "id":uid, "status":"booked" },
-             {"social":"tweets", "click":1, "status":"booked" }];
+        var object = {id: uid
+        };
 
-        var request = $.ajax({
-                                url: "http://localhost:3001/TestSite/10.221.20.119",
-                                type: "POST",
-                                data: JSONObject,
-                                dataType: "json"
-                                });
+        $.ajax( {
+            type:"POST",
+            url:"http://api.navistats.com:3001/tweets/" + uid+ "/booked",
+            data: JSON.stringify(object),
+            contentType: "application/json; charset=UTF-8",
 
-        }
-        catch( err ) {
-            throw err;
-        }
-        return 1;
+            success: function(reply){
+                callback(reply.first());
+            }
+        })
 
- };
 
- return 0;
+    });
 
-})
+//var click = 0;
+//
+//$("#getParameter").after(function($){
+//    var arrivalDate =getUrlParameter('ArrivalDate');
+//
+//    if(typeof arrivalDate != 'undefined'){
+//        var uid = getUrlParameter('uid');
+//            click = click +1;
+//         //var JSONObject= [{"social":"tweets", "id":uid, "status":"booked" },
+//         //    {"social":"tweets", "click":click, "status":"booked" }];
+//        var JSONObject = "\\tweets\\" + uid +"\\booked";
+//        $.ajax({
+//            type: "POST",
+//            url: "http://api.navistats.com:3001",
+//            data: JSONObject,
+//            success: function(reply) {
+//                callback(reply.first);
+//            }
+//        });
+//
+//        return 1;
+//
+// };
+//
+// return 0;
+//
+//})
 
 (function($) {
 
