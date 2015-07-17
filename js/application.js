@@ -37,16 +37,35 @@ function getUrlParameter(sParam)
 //
 //})
 
-var click = 0;
+
+    $('document').ready(function(){
+        var uid = getUrlParameter('uid');
+        var object = {id: uid
+        };
+        if (uid!=undefined) {
+            $.ajax( {
+                type:"POST",
+                url:"http://api.navistats.com:3001/tweets/" + uid+ "/clicked/",
+                data: JSON.stringify(object),
+                contentType: "application/json; charset=UTF-8",
+
+                success: function(reply){
+
+            }
+        });
+        }
+
+
+    });
+
     $('#getParameter').click(function(){
-        click=+1;
         var uid = getUrlParameter('uid');
         var object = {id: uid
         };
 
         $.ajax( {
             type:"POST",
-            url:"http://api.navistats.com:3001/tweets/" + uid+ "/booked",
+            url:"http://api.navistats.com:3001/tweets/" + uid+ "/booked/",
             data: JSON.stringify(object),
             contentType: "application/json; charset=UTF-8",
 
@@ -54,6 +73,7 @@ var click = 0;
                 callback(reply.first());
             }
         })
+
 
 
     });
