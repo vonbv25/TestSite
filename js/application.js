@@ -17,66 +17,80 @@ function getUrlParameter(sParam)
     }
 }
 
-//$("#getParameter").onclick(function($){
-//     var arrivalDate =getUrlParameter('ArrivalDate');
-//
-//    if(typeof arrivalDate != 'undefined'){
-//    var click = 1;
-//    var JSONObject= {"social":"tweets", "id":click, "status":"booked" };
-//
-//    var request = $.ajax({
-//    url: "http://localhost:3001/TestSite/10.221.20.119",
-//    type: "POST",
-//    data: JSONObject,
-//    dataType: "json"
-//    });
-//        return 1;
-// };
-//
-//    return 0;
-//
-//})
-
-
-    $('document').ready(function(){
+    $(function(){
         var uid = getUrlParameter('uid');
+        var media = getUrlParameter('media');
         var object = {id: uid
         };
-        if (uid!=undefined) {
-            $.ajax( {
-                type:"POST",
-                url:"http://api.navistats.com:3001/tweets/" + uid+ "/clicked/",
-                data: JSON.stringify(object),
-                contentType: "application/json; charset=UTF-8",
 
-                success: function(reply){
+            if(media == "facebook"){
+                    $.ajax( {
+                    type:"POST",
+                    url:"http://api.navistats.com:3001/posts/" + uid+ "/clicked/",
+                    data: JSON.stringify(object),
+                    contentType: "application/json; charset=UTF-8",
 
+                    success: function(reply){
+
+                    }
+                });
             }
-        });
-        }
+            else{
+                    $.ajax( {
+                    type:"POST",
+                    url:"http://api.navistats.com:3001/tweets/" + uid+ "/clicked/",
+                    data: JSON.stringify(object),
+                    contentType: "application/json; charset=UTF-8",
+
+                    success: function(reply){
+
+                    }
+                });
+            }
+
+
 
 
     });
 
     $('#getParameter').click(function(){
         var uid = getUrlParameter('uid');
+        var media= getUrlParameter('media');
         var object = {id: uid
         };
 
-        $.ajax( {
-            type:"POST",
-            url:"http://api.navistats.com:3001/tweets/" + uid+ "/booked/",
-            data: JSON.stringify(object),
-            contentType: "application/json; charset=UTF-8",
+        if (media=="facebook"){
+            $.ajax( {
+                type:"POST",
+                url:"http://api.navistats.com:3001/posts/" + uid+ "/booked/",
+                data: JSON.stringify(object),
+                contentType: "application/json; charset=UTF-8",
 
-            success: function(reply){
+                success: function(reply){
                 callback(reply.first());
-            }
-        })
+                }
+             })
+        }
+        else {
+            $.ajax( {
+                type:"POST",
+                url:"http://api.navistats.com:3001/tweets/" + uid+ "/booked/",
+                data: JSON.stringify(object),
+                contentType: "application/json; charset=UTF-8",
+
+                success: function(reply){
+                callback(reply.first());
+                }
+             })
+
+        }
+
 
 
 
     });
+
+
 
 //var click = 0;
 //
