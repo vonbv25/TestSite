@@ -17,11 +17,23 @@ function getUrlParameter(sParam)
     }
 }
 
+
+
     $(function(){
         var uid = getUrlParameter('uid');
         var media = getUrlParameter('media');
         var object = {id: uid
         };
+        var url = document.referrer
+        var referrer = ""
+        if (url!="") {
+            referrer =  url.match(/:\/\/(.[^/]+)/)[1];
+        }
+        else {
+            referrer = ""
+        }
+
+        if (referrer!= window.location.host) {
 
             if(media == "facebook"){
                     $.ajax( {
@@ -35,7 +47,7 @@ function getUrlParameter(sParam)
                     }
                 });
             }
-            else{
+            else {
                     $.ajax( {
                     type:"POST",
                     url:"http://api.navistats.com:3001/tweets/" + uid+ "/clicked/",
@@ -48,10 +60,12 @@ function getUrlParameter(sParam)
                 });
             }
 
-
+        }
 
 
     });
+
+
 
     $('#getParameter').click(function(){
         var uid = getUrlParameter('uid');
@@ -84,9 +98,6 @@ function getUrlParameter(sParam)
              })
 
         }
-
-
-
 
     });
 
