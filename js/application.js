@@ -98,7 +98,6 @@ function getUrlParameter(sParam)
              })
 
         }
-
     });
 
 
